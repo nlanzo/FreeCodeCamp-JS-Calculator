@@ -30,9 +30,9 @@ function App() {
         }
       } else if (symbol === ".") {
         const lastNumber = expression.split(/[-+/*]/g).pop();
-        if (!lastNumber.includes(".")) {
-          setExpression(expression + symbol);
-        }
+        if (!lastNumber) return;
+        if (lastNumber?.includes(".")) return;
+        setExpression(expression + symbol);
       } else {
         if (expression.charAt(0) === "0") {
           setExpression(expression.slice(1) + symbol);
@@ -43,13 +43,13 @@ function App() {
   }
   
   const evaluate = () => {
-    // if last character is an operator, do nothing
+
     if (isOperator(et.charAt(et.length - 1))) return;
-    // clean the expression so that two operators in a row uses the last operator
+
     const parts = et.split(" ");
     const newParts = [];
 
-    // loop through parts backwards
+
     for (let i = parts.length - 1; i >= 0; i--) {
       if(["*", "/", "+"].includes(parts[i]) && isOperator(parts[i - 1])) {
         newParts.unshift(parts[i]);
